@@ -4,7 +4,7 @@ const generateMarkdown = require("./utils/generateMarkdown");
 const util = require("util");
 const Choices = require("inquirer/lib/objects/choices");
 const writeFileAsync = util.promisify(fs.writeFile);
-let License = " ";
+let license = " ";
 
 
 
@@ -75,7 +75,7 @@ async function init() {
       licenseBadge = "[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)"
     }
     
-    const markdown = generateMarkdown(prompt, licenseBadge);
+    const markdown = generateMarkdown(prompt, license);
     await writeFileAsync("README.md", markdown);
     
      }
