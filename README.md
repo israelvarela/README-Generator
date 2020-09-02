@@ -1,4 +1,4 @@
-`Preview.png`
+![Preview](https://user-images.githubusercontent.com/62815477/91920670-62c86480-ec8f-11ea-9fb9-8391fdb8bd0e.png)
   
   # README
 
