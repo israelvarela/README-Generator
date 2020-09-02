@@ -1,12 +1,9 @@
-const inquirer = require("inquirer");
-const fs = require("fs");
-const generateMarkdown = require("./utils/generateMarkdown");
-const util = require("util");
-const Choices = require("inquirer/lib/objects/choices");
-const writeFileAsync = util.promisify(fs.writeFile);
-let license = " ";
 
 
+function init() {
+
+    // Initializes the inquirer
+    const inquirer = require('inquirer');
 
 // array of questions for user
 const questions = [
@@ -22,7 +19,7 @@ const questions = [
     },
     {
         type: "input",
-        name: "Table of Contents",
+        name: "tableOfContents",
         message: "Please provide a Table of Contents"
     },
     {
@@ -37,7 +34,7 @@ const questions = [
     },
     {
         type: "list",
-        name: "License",
+        name: "license",
         message: "Does the application have or require a license?",
         choices: ["Apache 2.0", "MIT", "PERL"]
     },
@@ -60,25 +57,43 @@ const questions = [
 ];
 
 
-// function to initialize program
-async function init() {
 
-    const prompt =  await inquirer.prompt(questions);
-    
-    if(prompt.license === 'MIT') {
-      licenseBadge = "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)";
-    } else if(prompt.license === 'Apache') {
-     licenseBadge = "[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)"
-    } else if(prompt.license === 'gpl') {
-      licenseBadge = "[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)"
-    } else if(prompt.license === 'Unlicensed'){
-      licenseBadge = "[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)"
-    }
-    
-    const markdown = generateMarkdown(prompt, license);
-    await writeFileAsync("README.md", markdown);
-    
-     }
-    // function call to initialize program
-    init();
+inquirer.prompt(questions)
+        .then(answers => {
 
+            let fileName = `${answers.Title}.md`;
+            console.log(answers)
+            console.log(fileName)
+            const generateMarkdown = require('./utils/generateMarkdown.js');
+
+            // Generate markdown from the users answers
+            const markdown = generateMarkdown(answers);
+
+            writeToFile(fileName, markdown);
+        })
+        .catch(error => {
+            if (error.isTtyError) {
+
+            } else {
+    
+            }
+        });
+
+}
+
+function writeToFile(fileName, data) {
+    const fs = require('fs');
+
+    fs.writeFile(fileName, data, (err) => {
+        // If there is error writing to the file, return
+        if (err) {
+            console.error(err)
+            return
+        }
+
+        console.log('Wrote README file successfully')
+    })
+
+}
+
+init();

@@ -3,9 +3,9 @@ function generateMarkdown(data) {
 
 
   let tableOfContents = "";
-  if (data.tableOfContents){
-    tableOfContents = 
-    `## Table of Contents
+  if (data.tableOfContents) {
+    tableOfContents =
+      `## Table of Contents
     
     * [Title](#Title)
     * [Description](#Description)
@@ -14,53 +14,58 @@ function generateMarkdown(data) {
     * [License](#License)
     * [Contributors](#Contributors)
     * [Testing](#Testing)
-    * [Questions](#Questions)   
-    `
+    * [Questions](#Questions)`
   }
 
-  const issuesBadge = `[![GitHub issues](https://img.shields.io/github/issues/${data.userName}/${data.title})](https://github.com/${data.userName}/${data.title}/issues)`;
+  const issuesBadge = `[![GitHub issues](https://img.shields.io/github/issues/${data.userName}/${data.Title})](https://github.com/${data.userName}/${data.title}/issues)`;
 
-  const licenseBadge = `[![GitHub license](https://img.shields.io/github/license/${data.userName}/${data.title})](https://github.com/${data.userName}/${data.title})`;
 
+  let licenseBadge;
   const profileImage = `![${data.userName}](https://github.com/${data.userName}.png?size=200)`;
+
+  if (data.license === 'MIT') {
+    licenseBadge = "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)";
+  } else if (data.license === 'Apache 2.0') {
+    licenseBadge = "[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)"
+  } else if (data.license === 'gpl') {
+    licenseBadge = "[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)"
+  } else if (data.license === 'Unlicensed') {
+    licenseBadge = "[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)"
+  }
 
   return `
   
-  # ${data.title}
+  # ${data.Title}
 
   ## Description
 
-  ${data.description}
+  ${data.Description}
 
   ${tableOfContents}
 
   ## Installation
 
-  ${data.installation}
+  ${data.Installation}
 
   ## Usage
 
-  ${data.usage}
+  ${data.Usage}
 
   ## License
 
-  ${license}
-
-  ## Badges
-
-  ${issuesBadge}
+  ${licenseBadge}
 
   ## Contributors
 
-  ${data.contributors}
+  ${data.Contributors}
 
   ## Testing
 
-  ${data.testing}
+  ${data.Testing}
 
   ## Questions
 
-  ${data.questions}
+  ${data.Questions}
 
   
 `;
